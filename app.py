@@ -1,6 +1,6 @@
 from yt_dlp.postprocessor.common import PostProcessor
 from dotenv import load_dotenv
-import yt_dlp, os, re, json, urllib.request, sys, time
+import yt_dlp, os, re, json, urllib.request, sys, time, zipfile
 
 load_dotenv()
 
@@ -54,6 +54,11 @@ def download(link):
 
     os.chdir(ORIGINAL_PATH)
 
+def zipdir(path, ziph):
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            ziph.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), os.path.join(path, '..')))
+
 with open('songs.txt', 'r') as f:
     for i in f.readlines():
         if i.strip() in songs:
@@ -65,3 +70,9 @@ for title in songs:
     link = search(title)
     print(f'[i] Downloading "{link}"...')
     download(link)
+      
+print('Zipping songs and saving to: "{os.getcwd()}/{songs.zip}"')
+
+zipf = zipfile.ZipFile('songs.zip', 'w', zipfile.ZIP_DEFLATED)
+zipdir(PATH, zipf)
+zipf.close()
