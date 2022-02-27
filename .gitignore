@@ -6,6 +6,10 @@ __pycache__/
 # ignore song list
 songs.txt
 
+# ignore songs
+downloads/
+*.mp3
+
 # C extensions
 *.so
 
