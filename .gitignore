@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# ignore song list
+songs.txt
+
 # C extensions
 *.so
 
